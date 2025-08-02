@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  space-deployer-bot:
+    build: .
+    container_name: space-deployer-bot
+    restart: unless-stopped
+    volumes:
+      - ./deployed_bots:/app/deployed_bots
+      - ./logs:/app/logs
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - space_deployer_network
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - MONGODB_URI=${MONGODB_URI}
+      - ADMIN_IDS=${ADMIN_IDS}
+      - OWNER_ID=${OWNER_ID}
+      - DEV_ID=${DEV_ID}
+      - LOGGER_ID=${LOGGER_ID}
+
+networks:
+  space_deployer_network:
+    driver: bridge
